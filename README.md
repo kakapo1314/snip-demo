@@ -40,6 +40,13 @@ cd ../cli && node cli.js ls
 The API runs at `http://localhost:3000`, and the Angular app runs at
 `http://localhost:4200`. Set `SNIP_API` when the CLI should use another API URL.
 
+## Generated bundle
+
+The `bundle/` submodule is generated release output: it combines the backend,
+built frontend, and CLI into one Bun process serving port 3000. Rebuild it from
+`main` with `node scripts/build-bundle.mjs`; add `--push` to publish the bundle
+branch and its updated pointer. Do not hand-edit files inside `bundle/`.
+
 ## Updating a layer
 
 Commit and push changes from inside the relevant submodule first, then advance
