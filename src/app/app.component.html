@@ -1,0 +1,73 @@
+<main class="page-shell">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="eyebrow">SNIP / URL SHORTENER</p>
+    <h1 id="page-title">Make long links feel lighter.</h1>
+    <p class="lede">Create a clean, shareable link in a second.</p>
+
+    <form class="shorten-form" (ngSubmit)="submit()" #linkForm="ngForm">
+      <label class="sr-only" for="url">URL to shorten</label>
+      <input
+        id="url"
+        name="url"
+        type="url"
+        placeholder="Paste a URL to shorten..."
+        [ngModel]="url()"
+        (ngModelChange)="url.set($event)"
+        autocomplete="url"
+        required
+      />
+      <button type="submit" [disabled]="isSubmitting() || linkForm.invalid">
+        {{ isSubmitting() ? 'Shortening...' : 'Shorten' }}
+      </button>
+    </form>
+
+    @if (error()) {
+      <p class="notice error" role="alert">{{ error() }}</p>
+    }
+
+    @if (createdLink(); as link) {
+      <div class="notice success" role="status">
+        <span>Ready to share</span>
+        <a [href]="link.shortUrl" target="_blank" rel="noopener">{{ link.shortUrl }}</a>
+      </div>
+    }
+  </section>
+
+  <section class="links-section" aria-labelledby="links-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">YOUR LINKS</p>
+        <h2 id="links-title">Recent shortcuts</h2>
+      </div>
+      <span class="count">{{ links().length }} total</span>
+    </div>
+
+    @if (links().length) {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Short link</th>
+              <th>Original URL</th>
+              <th>Hits</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (link of links(); track link.code) {
+              <tr>
+                <td><a class="short-link" [href]="link.shortUrl" target="_blank" rel="noopener">/{{ link.code }}</a></td>
+                <td class="original-url" [title]="link.url">{{ link.url }}</td>
+                <td>{{ link.hits }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <span class="empty-mark">+</span>
+        <p>Your shortened links will appear here.</p>
+      </div>
+    }
+  </section>
+</main>
