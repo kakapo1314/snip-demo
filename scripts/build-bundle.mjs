@@ -71,7 +71,7 @@ writeFileSync(
 );
 writeFileSync(
   join(bundleDir, ".dockerignore"),
-  ".git\n.env\nnode_modules\n",
+  ".git\nnode_modules\n",
 );
 writeFileSync(
   join(bundleDir, "railway.json"),
